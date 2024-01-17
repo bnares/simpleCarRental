@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MakeReservationForm from './MakeReservationForm';
+//import fs from 'fs';
 
 export type Car = {
   id: number,
@@ -23,7 +24,14 @@ export type Car = {
 
 function CardCar({ id, name, brand, productionYear,odometer, horsePower, price, isRented, pictureName, carShopId,carShop}:Car) {
   const [openReserveForm, setOpenReserveForm] = React.useState<boolean>(false);
-
+  const fotoCatalog : string[]= [ "range.jpg", "stepway.jpg", "picasso.jpg","skoda.jpg", "octavia.jpg"];
+  var route = "./public/images/"+pictureName;
+  var backoup = 'https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=600';
+  //console.log(route);
+ // console.log(pictureName);
+  //console.log(fotoCatalog.filter(item=>item ==pictureName));
+   
+  
   return (
     <>
     {openReserveForm && <MakeReservationForm open = {openReserveForm} setOpen={setOpenReserveForm} carId={id} />}
@@ -31,7 +39,7 @@ function CardCar({ id, name, brand, productionYear,odometer, horsePower, price, 
       
       <CardMedia
         sx={{ height: 140 }}
-        image="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=600"
+        image={  fotoCatalog.filter(item=>item ==pictureName).length==1 ? route : backoup}
         title={brand}
       />
       <CardContent>
