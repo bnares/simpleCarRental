@@ -20,6 +20,7 @@ namespace CarShop.Controllers
             _context = context;
             //_authController = authController;
         }
+
         [HttpGet("getCar/{id}",Name ="GetCar")]
         public async Task<ActionResult<Car>> GetCar(int id)
         {
@@ -46,17 +47,18 @@ namespace CarShop.Controllers
             if (car.IsRented) { return BadRequest(new ProblemDetails { Title = "Car is Rented" }); }
             var carShop = await _context.CarShops.FindAsync(dto.CarShopId);
             if(carShop== null) { return NotFound("Cant find such car shop"); }
-            var from = DateOnly.ParseExact(dto.DateFrom,"yyyy-MM-dd");
+            var from = DateOnly.ParseExact(dto.DateFrom, "yyyy-MM-dd");
             var to = DateOnly.ParseExact(dto.DateTo, "yyyy-MM-dd");
+            
             if (from > to )
             {
                 return BadRequest(new ProblemDetails() { Title = "Date 'from' cant be after date 'to'" });
             }
             var userId = int.Parse(HttpContext.User.Claims.ToList()[2].Value);
             var price = (to.DayNumber - from.DayNumber) * car.Price;
-            var rentedData = new RentedData { Car = car, CarId = car.Id, CarShop = carShop, CarShopId = carShop.Id, DateFrom = from, DateTo = to, Price = price, UserId = userId };
+            var rentedData = new RentedData { Car = car, CarId = car.Id, CarShop = carShop, CarShopId = carShop.Id, DateFrom = from.ToString("yyyy-MM-dd"), DateTo = to.ToString("yyyy-MM-dd"), Price = price, UserId = userId };
             _context.RentedDatas.Add(rentedData);
-            car.IsRented = true;
+            //car.IsRented = true;
             var result = await _context.SaveChangesAsync();
             if(result>0) return CreatedAtRoute("GetReservation", new {Id = rentedData.Id}, rentedData);
             return BadRequest(new ProblemDetails() { Title = "Problem with reservation of the car" });
@@ -92,7 +94,7 @@ namespace CarShop.Controllers
                 var userId =int.Parse(userContext[2].Value);
                 var user = await _context.Users.FindAsync(userId);
                 if (user == null) return NotFound(new ProblemDetails() { Title = "No such user" });
-                var rentedData = await _context.RentedDatas.Where(x=>x.UserId==userId).ToListAsync();
+                var rentedData = await _context.RentedDatas.Where(x=>x.UserId==userId).Include(x=>x.Car).Include(x=>x.User).ToListAsync();
                 return Ok(rentedData);
             }
             catch(Exception e)

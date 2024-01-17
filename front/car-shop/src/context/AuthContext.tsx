@@ -14,7 +14,7 @@ interface UserContext{
 
 const AuthContext = createContext<UserContext>({
     contextData: null,
-    setContextData: (value: ContextType)=>{}
+    setContextData: (value: (ContextType | null))=>{}
 })
 
 

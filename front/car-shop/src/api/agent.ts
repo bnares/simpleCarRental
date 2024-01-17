@@ -83,7 +83,7 @@ axios.interceptors.response.use(async response =>{
             toast.error("You are not allowed to do that");
             break;
         case 500:
-            router.navigate("/login");
+            router.navigate("/server-error",{state:{error:data}});
             toast.error(data.title);
             break;
         default:

@@ -5,6 +5,8 @@ import Login from "../catalog/login/Login";
 import Register from "../catalog/register/Register";
 import Dashboard from "../catalog/dashboard/Dashboard";
 import { useAuth } from "../context/AuthContext";
+import ServerError from "../components/errors/ServerError";
+import NotFound from "../components/errors/NotFound";
 
 
 const ProtectedRoute = (props:{children: any})=>{
@@ -32,7 +34,10 @@ export const router = createBrowserRouter([
             {path:"", element:<HomePage />},
             {path:"/login", element:<Login />},
             {path:"/register", element: <Register />},
-            {path:"/dashboard", element: (<ProtectedRoute> <Dashboard /></ProtectedRoute>) }
+            {path:"/dashboard", element: (<ProtectedRoute> <Dashboard /></ProtectedRoute>) },
+            {path:"/server-error", element:<ServerError />},
+            {path:"/not-found", element:<NotFound />},
+            {path:"*", element: <Navigate replace to="/not-found" />}
         ]
     }
 ])
