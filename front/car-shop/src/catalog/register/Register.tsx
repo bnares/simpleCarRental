@@ -26,7 +26,7 @@ function Register() {
       console.log("submit data: ",data);
       agent.auth.register(data).then((data)=>(console.log("response from axios: ",data), setOnSuccess(data==undefined ? false : true))).catch((e)=>(console.warn(e), setOnSuccess(false)));
       console.log("onSuccess: ",onSuccess);
-      if(onSuccess) navigate("/login");
+      navigate("/login");
     };
 
   return (
