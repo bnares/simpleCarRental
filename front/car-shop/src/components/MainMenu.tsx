@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import TimeToLeaveIcon from '@mui/icons-material/TimeToLeave';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Tooltip from '@mui/material/Tooltip';
 import ReservationList from './ReservationList';
 
 function MainMenu(props: {email: string, setShowTable: (value:boolean)=>void, showTable: boolean}) {
@@ -38,6 +39,7 @@ function MainMenu(props: {email: string, setShowTable: (value:boolean)=>void, sh
         
         
         <Box display="flex" alignItems='center' sx={{paddingRight:'50px'}}>
+            <Tooltip title="Show/Hide Reservations">
               <IconButton
                 size="small"
                 color="inherit"
@@ -47,15 +49,19 @@ function MainMenu(props: {email: string, setShowTable: (value:boolean)=>void, sh
               >
                 <TimeToLeaveIcon />
               </IconButton>
-            <IconButton
+            </Tooltip>
+            <Tooltip title="Logout">
+              <IconButton
+            
                 size="small"
                 color="inherit"
                 edge="end"
                 sx={{display:'flex', justifyContent:'center'}}
                 onClick={logout}
-            >
+              >
                 <LogoutIcon />
-            </IconButton>
+              </IconButton>
+            </Tooltip>
         </Box>
       </Toolbar>
     </AppBar>

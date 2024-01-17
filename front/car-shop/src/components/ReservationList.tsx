@@ -10,6 +10,9 @@ import TableRow from '@mui/material/TableRow';
 import agent from '../api/agent';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Tooltip from '@mui/material/Tooltip';
 
 interface Column {
     id: 'carBrand' | 'carName' | 'productionYear' | 'odometer' | 'dateFrom' | 'dateTo' | 'overallPrice' | 'username';
@@ -64,6 +67,7 @@ interface Column {
         align: 'right',
         format: (value: number) => value.toFixed(2),
     },
+    { id: 'action', label: 'Delete', minWidth: 80 },
   ];
   
   interface Data {
@@ -74,7 +78,8 @@ interface Column {
     dateFrom: string;
     dateTo: string;
     overallPrice: number,
-    username: string
+    username: string,
+    action: React.ReactNode,
   }
   
 
@@ -100,7 +105,22 @@ function ReservationList() {
         if(reservationData.length>0){
             var dataRow : Data[] = [];
             reservationData.map((item , idx)=>{
-                var row : Data = {carBrand: item?.car?.brand, carName: item.car.name, productionYear: item.car.productionYear, odometer: item.car.odometer, dateFrom: item.dateFrom, dateTo: item.dateTo, overallPrice: item.price, username: item.user.userName};
+                var row : Data = {
+                    carBrand: item?.car?.brand, 
+                    carName: item.car.name, 
+                    productionYear: item.car.productionYear, 
+                    odometer: item.car.odometer, 
+                    dateFrom: item.dateFrom, 
+                    dateTo: item.dateTo, 
+                    overallPrice: item.price, 
+                    username: item.user.userName, 
+                    action: 
+                    <Tooltip title={item.car.name ? `Delete ${item.car.name}`: "Delete"}>
+                        <IconButton color='error' aria-label="delete" size="large" onClick={()=>console.log("clicked delete")}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                    };
                 dataRow.push(row);
             })
             setTableRows(dataRow);
