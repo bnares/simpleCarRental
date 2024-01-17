@@ -27,7 +27,7 @@ function CardCar({ id, name, brand, productionYear,odometer, horsePower, price, 
   return (
     <>
     {openReserveForm && <MakeReservationForm open = {openReserveForm} setOpen={setOpenReserveForm} carId={id} />}
-    <Card sx={{ maxWidth: 245, backgroundColor:"#92a8d1", marginTop:"40px" }}>
+    <Card sx={{ maxWidth: 320, backgroundColor:"#92a8d1", marginTop:"40px", minWidth:250 }}>
       
       <CardMedia
         sx={{ height: 140 }}
