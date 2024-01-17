@@ -47,8 +47,8 @@ function CardCar({ id, name, brand, productionYear,odometer, horsePower, price, 
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={()=>setOpenReserveForm(true)}>Reserve</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small" color='warning' variant='contained' onClick={()=>setOpenReserveForm(true)}>Reserve</Button>
+        
       </CardActions>
     </Card>
     </>

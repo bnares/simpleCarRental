@@ -30,7 +30,7 @@ function MakeReservationForm(props: {open: boolean, setOpen: (value: boolean)=>v
 
     const navigate = useNavigate();
     const auth = useAuth();
-    console.log("carData: ",carData);
+    //console.log("carData: ",carData);
     React.useEffect(()=>{
         if(auth.contextData?.token){
             agent.user.car(props.carId,auth.contextData?.token).then((data)=>setCarData(data)).catch((e)=>console.warn(e));
@@ -52,7 +52,7 @@ function MakeReservationForm(props: {open: boolean, setOpen: (value: boolean)=>v
     const handleSubmit = (e : any)=>{
         e.preventDefault();
         setFormData({...formData, carId:props.carId});
-        console.log("formData: ",formData);
+        //console.log("formData: ",formData);
         if(auth.contextData?.token){
             agent.user.reserveCar(formData, auth.contextData?.token).then(()=>toast.success("Added Reservation")).catch((e)=>console.warn(e));
            
@@ -61,7 +61,7 @@ function MakeReservationForm(props: {open: boolean, setOpen: (value: boolean)=>v
         }
         props.setOpen(false);
     }
-    console.log("carId: ",props.carId);
+    //console.log("carId: ",props.carId);
 
   return (
     <>

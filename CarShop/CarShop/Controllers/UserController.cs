@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CarShop.Controllers
 {
@@ -42,6 +43,7 @@ namespace CarShop.Controllers
         
         public async Task<ActionResult<RentedData>> MakeReservation(ReserveCarDto dto)
         {
+            if(dto.DateFrom.IsNullOrEmpty() || dto.DateTo.IsNullOrEmpty()) { return BadRequest(new ProblemDetails() { Title = "Fill in Dates" }); }
             var car = await _context.Cars.FindAsync(dto.CarId);
             if(car== null) { return NotFound("Car cant be found");}
             if (car.IsRented) { return BadRequest(new ProblemDetails { Title = "Car is Rented" }); }

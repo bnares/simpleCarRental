@@ -116,7 +116,7 @@ function ReservationList() {
                     username: item.user.userName, 
                     action: 
                     <Tooltip title={item.car.name ? `Delete ${item.car.name}`: "Delete"}>
-                        <IconButton color='error' aria-label="delete" size="large" onClick={()=>console.log("clicked delete")}>
+                        <IconButton color='error' aria-label="delete" size="large" onClick={()=>handleDeleteReservation(item.id)}>
                             <DeleteIcon />
                         </IconButton>
                     </Tooltip>
@@ -126,6 +126,16 @@ function ReservationList() {
             setTableRows(dataRow);
         }
     },[reservationData])
+
+    const handleDeleteReservation = (id: number)=>{
+        if(auth.contextData?.token){
+            agent.user.deleteReservation(id, auth.contextData?.token).then((e)=>console.warn(e));
+            agent.user.allReservation(auth.contextData?.token).then((data)=> setReservationData(data)).catch((e)=>console.warn(e));
+        }else{
+            navigate("/not-found");
+        }
+        
+    }
   
     const handleChangePage = (event: unknown, newPage: number) => {
       setPage(newPage);
